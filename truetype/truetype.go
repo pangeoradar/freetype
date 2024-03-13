@@ -15,7 +15,7 @@
 //
 // To measure a TrueType font in ideal FUnit space, use scale equal to
 // font.FUnitsPerEm().
-package truetype // import "github.com/golang/freetype/truetype"
+package truetype // import "github.com/pangeoradar/freetype/truetype"
 
 import (
 	"fmt"
@@ -345,7 +345,7 @@ func (f *Font) parseKern() error {
 		return UnsupportedError(fmt.Sprintf("kern coverage: 0x%04x", coverage))
 	}
 	f.nKern, offset = int(u16(f.kern, offset)), offset+2
-	// https://github.com/golang/freetype/issues/8
+	// https://github.com/pangeoradar/freetype/issues/8
 	// For large kerning tables, the extracted length value may be incorrect.
 	// For such fonts, often only the lower 16 bits of the actual length are
 	// stored. Here we validate the lower 16 bits, and also make sure that
