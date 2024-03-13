@@ -345,7 +345,13 @@ func (f *Font) parseKern() error {
 		return UnsupportedError(fmt.Sprintf("kern coverage: 0x%04x", coverage))
 	}
 	f.nKern, offset = int(u16(f.kern, offset)), offset+2
-	if 6*f.nKern != length-14 {
+	// https://github.com/golang/freetype/issues/8
+	// For large kerning tables, the extracted length value may be incorrect.
+	// For such fonts, often only the lower 16 bits of the actual length are
+	// stored. Here we validate the lower 16 bits, and also make sure that
+	// the extracted number of kerning pairs does not exceed the total length
+	// of the kerning table.
+	if uint16(6*f.nKern) != uint16(length-14) || 6*f.nKern > len(f.kern)-18 {
 		return FormatError("bad kern table length")
 	}
 	return nil
