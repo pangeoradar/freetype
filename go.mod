@@ -1,4 +1,4 @@
-module github.com/pangeoradar/freetype
+module github.com/golang/freetype
 
 go 1.20
 
